@@ -57,7 +57,7 @@ export const generateImage = async (prompt) => {
   if (HF_TOKEN && HF_TOKEN !== 'your_huggingface_token_here') {
     try {
       const response = await fetch(
-        "https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-xl-base-1.0",
+        "https://router.huggingface.co/hf-inference/models/black-forest-labs/FLUX.1-schnell",
         {
           headers: {
             Authorization: `Bearer ${HF_TOKEN}`,
