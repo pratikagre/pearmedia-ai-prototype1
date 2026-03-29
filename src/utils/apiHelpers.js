@@ -52,8 +52,11 @@ export const analyzeImage = async (base64Data, mimeType) => {
     return response.text().trim();
   } catch (error) {
     if (error.message && (error.message.includes('quota') || error.message.includes('429'))) {
-      console.warn("Gemini Quota Exceeded. Returning simulated analysis for demo...");
-      return `- Main Subject: A detailed subject identified from the image\n- Color Palette: Rich, vibrant, harmonious colors\n- Lighting: Dynamic, studio-quality lighting\n- Artistic Style: High-fidelity photography, cinematic masterpiece`;
+      console.warn("Gemini Quota Exceeded. Prompting user for manual input...");
+      const userSubject = window.prompt("Google API Quota Exhausted! 🚨\n\nSince the AI couldn't see your image due to Google Free Tier limits, please manually type what was in your image below (e.g. 'A cute brown dog') so we can generate the variation:");
+      
+      const subject = userSubject ? userSubject : "A generic subject";
+      return `- Main Subject: ${subject}\n- Color Palette: Rich, vibrant, harmonious colors\n- Lighting: Dynamic lighting\n- Artistic Style: High-fidelity photography`;
     }
     console.error('Analysis failed:', error);
     throw new Error(`Failed to analyze image. (${error.message || 'Check API key/quota'})`);
