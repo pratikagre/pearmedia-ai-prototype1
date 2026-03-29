@@ -11,7 +11,7 @@ export const getEnhancedPrompt = async (input) => {
     throw new Error('Gemini API key is missing. Please add VITE_GEMINI_API_KEY to your .env file.');
   }
   try {
-    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+    const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
     const fullPrompt = `${SYSTEM_PROMPT_ENHANCE}\n\nUser Request: ${input}`;
     
     const result = await model.generateContent(fullPrompt);
@@ -19,7 +19,7 @@ export const getEnhancedPrompt = async (input) => {
     return response.text().trim();
   } catch (error) {
     console.error('Enhancement failed:', error);
-    throw new Error('Failed to enhance prompt. Check API key and quota.');
+    throw new Error(`Failed to enhance prompt. (${error.message || 'Check API key/quota'})`);
   }
 };
 
@@ -29,7 +29,7 @@ export const analyzeImage = async (base64Data, mimeType) => {
   }
   
   try {
-    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+    const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
     
     // The base64Data comes as a data URL, so we extract just the base64 string
     const base64String = base64Data.split(',')[1] || base64Data;
@@ -48,7 +48,7 @@ export const analyzeImage = async (base64Data, mimeType) => {
     return response.text().trim();
   } catch (error) {
     console.error('Analysis failed:', error);
-    throw new Error('Failed to analyze image. Check API key and quota.');
+    throw new Error(`Failed to analyze image. (${error.message || 'Check API key/quota'})`);
   }
 };
 
